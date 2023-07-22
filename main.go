@@ -36,7 +36,35 @@ func main() {
 		}
 
 		if args[1] == "tip" {
-			s.ChannelMessageSend(m.ChannelID, helpers.RandomTip())
+
+			//author := discordgo.MessageEmbedAuthor{
+			//	Name: "Mahady Hasan Pial",
+			//	URL:  "https://github.com/techno-stupid",
+			//}
+
+			embed := discordgo.MessageEmbed{
+				Title: helpers.RandomTip(),
+				//Author: &author,
+			}
+
+			s.ChannelMessageSendEmbed(m.ChannelID, &embed)
+
+		}
+	})
+
+	ses.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+		fmt.Println(r.Emoji.Name)
+		if r.Emoji.Name == "🤘" {
+			s.GuildMemberRoleAdd(r.GuildID, r.UserID, "1132173518369468436")
+			s.ChannelMessageSend(r.ChannelID, fmt.Sprintf("%v has been added to %v", r.UserID, r.Emoji.Name))
+		}
+	})
+
+	ses.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
+		fmt.Println(r.Emoji.Name)
+		if r.Emoji.Name == "🤘" {
+			s.GuildMemberRoleRemove(r.GuildID, r.UserID, "1132173518369468436")
+			s.ChannelMessageSend(r.ChannelID, fmt.Sprintf("%v has been removed to %v", r.UserID, r.Emoji.Name))
 		}
 	})
 
