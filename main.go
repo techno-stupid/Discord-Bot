@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 )
@@ -33,7 +34,7 @@ func main() {
 
 		if args[1] == "help" {
 			embed := discordgo.MessageEmbed{
-				Title: "`!go tip` for golang tips\n`!go joke` for jokes\n`!go fact` for facts\n`!go define your_word` for word definitions\n",
+				Title: "`!go tip` for golang tips\n`!go joke` for jokes\n`!go fact` for facts\n`!go define your_word` for word definitions\n`!go iplookup IP` for looking up IP addresses",
 			}
 			s.ChannelMessageSendEmbed(m.ChannelID, &embed)
 		}
@@ -68,6 +69,31 @@ func main() {
 			if definitionError == nil {
 				s.ChannelMessageSend(m.ChannelID, definition)
 			}
+		}
+		if args[1] == "iplookup" {
+			if !helpers.IsIP(args[2]) {
+				s.ChannelMessageSend(m.ChannelID, "Invalid IP")
+				return
+			}
+			iplookup, iplookupError := helpers.IpLookup(args[2])
+			fmt.Println(iplookup)
+
+			data := "Country: " + iplookup.Country + "\n"
+			data += "Region: " + iplookup.Region + "\n"
+			data += "City: " + iplookup.City + "\n"
+			data += "Zip: " + iplookup.Zip + "\n"
+			data += "Lat: `" + strconv.FormatFloat(iplookup.Lat, 'f', 6, 64) + "`\n"
+			data += "Lon: `" + strconv.FormatFloat(iplookup.Lon, 'f', 6, 64) + "`\n"
+			data += "Timezone: " + iplookup.Timezone + "\n"
+			data += "ISP: " + iplookup.ISP + "\n"
+
+			if iplookupError == nil {
+				embed := discordgo.MessageEmbed{
+					Title: data,
+				}
+				s.ChannelMessageSendEmbed(m.ChannelID, &embed)
+			}
+
 		}
 	})
 
