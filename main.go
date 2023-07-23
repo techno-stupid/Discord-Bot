@@ -31,24 +31,43 @@ func main() {
 			return
 		}
 
-		if args[1] == "hello" {
-			s.ChannelMessageSend(m.ChannelID, "world!")
+		if args[1] == "help" {
+			embed := discordgo.MessageEmbed{
+				Title: "`!go tip` for golang tips\n`!go joke` for jokes\n`!go fact` for facts\n`!go define your_word` for word definitions\n",
+			}
+			s.ChannelMessageSendEmbed(m.ChannelID, &embed)
 		}
-
 		if args[1] == "tip" {
-
 			//author := discordgo.MessageEmbedAuthor{
 			//	Name: "Mahady Hasan Pial",
 			//	URL:  "https://github.com/techno-stupid",
 			//}
-
 			embed := discordgo.MessageEmbed{
 				Title: helpers.RandomTip(),
 				//Author: &author,
 			}
-
 			s.ChannelMessageSendEmbed(m.ChannelID, &embed)
-
+		}
+		if args[1] == "joke" {
+			joke, jokeError := helpers.GetJoke()
+			if jokeError != nil {
+				joke = "No joke found"
+			}
+			s.ChannelMessageSend(m.ChannelID, joke)
+		}
+		if args[1] == "fact" {
+			fact, factError := helpers.GetFact()
+			if factError != nil {
+				fact = "No fact found"
+			}
+			s.ChannelMessageSend(m.ChannelID, fact)
+		}
+		if args[1] == "define" {
+			definition, definitionError := helpers.GetDefinition(args[2])
+			fmt.Println(definition)
+			if definitionError == nil {
+				s.ChannelMessageSend(m.ChannelID, definition)
+			}
 		}
 	})
 
