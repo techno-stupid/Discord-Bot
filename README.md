@@ -43,7 +43,6 @@ Before you start, ensure you have the following:
 
    ```sh
    git clone git@github.com:techno-stupid/Discord-Bot.git
-
    
 2. Navigate to the project directory:
 
@@ -64,19 +63,22 @@ Before you start, ensure you have the following:
 ## Usage
 
 1. Invite the bot to your Discord server using the OAuth2 URL generated in the [Discord Developer Portal](https://discord.com/developers/applications)
-2. Run the bot:
+2. Follow the instructions [Create a Bot](https://www.ionos.com/digitalguide/server/know-how/creating-discord-bot/)
+3. Run the bot:
    ```sh
    go run main.go
-3. The bot will come online and listen for commands in the server.
+4. The bot will come online and listen for commands in the server.
 
 ## Bot Commands
 
-```!go tip: Get a random Golang programming tip.```
-```!go joke: Receive a joke to brighten the mood.```
-```!go fact: Learn a random interesting fact.```
-```!go define {word}: Get the meaning of a word.```
-```!go iplookup {ip}: Get information about an IP address.```
-```!go help: List all available commands.```
+```sh
+  !go tip: Get a random Golang programming tip.
+  !go joke: Receive a joke to brighten the mood.
+  !go fact: Learn a random interesting fact.
+  !go define {word}: Get the meaning of a word.
+  !go iplookup {ip}: Get information about an IP address.
+  !go help: List all available commands.
+```
 
 # Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvements, feel free to open an issue or create a pull request.
